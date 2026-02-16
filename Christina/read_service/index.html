@@ -138,7 +138,7 @@
             <h2>Fütterungsstatistiken</h2>
             <div class="stats">
                 <div class="stat-item">
-                    <span class="stat-label">Fütterungen:</span>
+                    <span class="stat-label">Hungrige Katzen gefüttert:</span>
                     <span class="stat-value" id="feedCount">-</span>
                 </div>
                 <div class="stat-item">
@@ -165,7 +165,7 @@
                 document.getElementById('feedCount').textContent = feedCount;
                 document.getElementById('lastFed').textContent = data.last_fed || '-';
                 
-                // Ändere das Bild basierend auf feed_count
+                // Bild änder sich je nach feed_count
                 updateCatImage(feedCount);
             } catch (error) {
                 document.getElementById('feedCount').textContent = '✗';

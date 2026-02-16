@@ -125,7 +125,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Katze füttern</h1>
+        <h1>Füttere eine Katze</h1>
 
         <div class="section">
             <h2>Gib einen Katzennamen ein:</h2>
@@ -152,14 +152,14 @@
                 });
 
                 if (response.ok) {
-                    messageDiv.textContent = `${catName} wurde gefüttert!`;
+                    messageDiv.textContent = `${catName} wurde gefüttert! :3`;
                     messageDiv.className = 'message success';
                     document.getElementById('catName').value = '';
                     setTimeout(() => {
                         messageDiv.className = 'message';
                     }, 3000);
                 } else {
-                    throw new Error('Fehler beim Füttern');
+                    throw new Error('Fehler beim Füttern :(');
                 }
             } catch (error) {
                 messageDiv.textContent = `Fehler: ${error.message}`;

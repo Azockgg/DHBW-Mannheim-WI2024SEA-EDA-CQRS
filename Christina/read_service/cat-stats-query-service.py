@@ -19,7 +19,7 @@ def consume_events():
             
             result = channel.queue_declare(queue='', exclusive=True)
             channel.queue_bind(exchange='cat_events', queue=result.method.queue)
-            print(f"✅ Event-Listener bereit auf Queue: {result.method.queue}")
+            print(f"Event-Listener bereit auf Queue: {result.method.queue}")
 
             def callback(ch, method, properties, body):
                 try:
@@ -28,15 +28,15 @@ def consume_events():
                     if data['event'] == 'cat.fed':
                         stats["feed_count"] += 1
                         stats["last_fed"] = data['data']['name']
-                        print(f"✅ Readmodel aktualisiert: {stats}")
+                        print(f"Readmodel aktualisiert: {stats}")
                 except Exception as e:
-                    print(f"❌ Fehler beim Verarbeiten des Events: {e}")
+                    print(f"Fehler beim Verarbeiten des Events: {e}")
 
             channel.basic_consume(queue=result.method.queue, on_message_callback=callback, auto_ack=True)
             print("🎧 Höre auf Events...")
             channel.start_consuming()
         except Exception as e:
-            print(f"❌ Fehler in consume_events: {e}")
+            print(f"Fehler in consume_events: {e}")
             time.sleep(5)  # 5 sekunden warten dann retry
 
 # Sevent consumer starten in eigenen thread

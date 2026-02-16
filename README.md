@@ -4,6 +4,10 @@
 2. Eigenen Ordner anlegen
 3. Aufgabe 3+4 bearbeiten (10 Punkte)
 
-## Requirements:
-- flask
-- pika
+## Write:
+
+http://localhost:5001/
+
+## Read:
+
+http://localhost:5002/
