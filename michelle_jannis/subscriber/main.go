@@ -241,7 +241,6 @@ func main() {
 	http.HandleFunc("/", handleIndex)
 	http.HandleFunc("/api/messages", handleMessages)
 
-	log.Println("Subscriber UI läuft auf http://localhost:8081")
 	if err := http.ListenAndServe(":8081", nil); err != nil {
 		panic(err)
 	}
