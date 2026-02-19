@@ -1,5 +1,6 @@
-# DHBW-Mannheim-WI2024SEA-EDA-CQRS
+# Abgabe von Jessie und Erik
 
-1. Fork anlegen
-2. Eigenen Ordner anlegen
-3. Aufgabe 3+4 bearbeiten (10 Punkte)
+Zum Starten: 
+1. docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4-management
+2. node sender.js
+3. node receiver.js
