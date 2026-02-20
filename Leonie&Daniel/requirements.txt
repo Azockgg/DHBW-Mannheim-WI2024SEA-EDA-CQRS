@@ -1,2 +1,2 @@
 pika
-kasa
+python-kasa
