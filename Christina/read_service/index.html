@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Statistics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .cat-image {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cat-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .stats {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .stat-value {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .nav-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Statistiken</h1>
+
+        <div class="cat-image">
+            <img id="catImage" src="hangry_cat.jpeg" alt="Katze">
+        </div>
+
+        <div class="section">
+            <h2>Fütterungsstatistiken</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-label">Hungrige Katzen gefüttert:</span>
+                    <span class="stat-value" id="feedCount">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Zuletzt gefüttert:</span>
+                    <span class="stat-value" id="lastFed">-</span>
+                </div>
+            </div>
+
+        </div>
+
+        <a href="http://localhost:5001" class="nav-link">Zur Fütterungsseite</a>
+    </div>
+
+    <script>
+        // Auto-refresh stats all 2 seconds
+        setInterval(loadStats, 2000);
+
+        async function loadStats() {
+            try {
+                const response = await fetch('http://localhost:5002/stats');
+                const data = await response.json();
+                
+                const feedCount = data.feed_count || 0;
+                document.getElementById('feedCount').textContent = feedCount;
+                document.getElementById('lastFed').textContent = data.last_fed || '-';
+                
+                // Bild änder sich je nach feed_count
+                updateCatImage(feedCount);
+            } catch (error) {
+                document.getElementById('feedCount').textContent = '✗';
+                document.getElementById('lastFed').textContent = '✗';
+            }
+        }
+
+        function updateCatImage(feedCount) {
+            const catImage = document.getElementById('catImage');
+            
+            if (feedCount === 0) {
+                // Hungrige Katze
+                catImage.src = './hangry_cat.jpeg';
+                catImage.alt = 'Hungrige Katze';
+            } else {
+                // Essende Katze
+                catImage.src = './eating_cat.jpeg';
+                catImage.alt = 'Essende Katze';
+            }
+        }
+
+        // Initial load
+        loadStats();
+    </script>
+</body>
+</html>

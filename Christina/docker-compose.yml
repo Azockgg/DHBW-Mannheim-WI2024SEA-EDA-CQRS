@@ -1,0 +1,27 @@
+services:
+  # Message Broker für EDA
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # Standard-Port für Kommunikation
+      - "15672:15672" # Dashboard zur Kontrolle
+
+  # write (Commands)
+  feeding-service:
+    build: ./write_service
+    ports:
+      - "5001:5000"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+
+  # read (Queries)
+  stats-service:
+    build: ./read_service
+    ports:
+      - "5002:5000"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=rabbitmq
