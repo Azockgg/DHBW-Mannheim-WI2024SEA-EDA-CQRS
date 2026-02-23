@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bus Stop Button (Provider)</title>
+  <link rel="stylesheet" href="{{ url_for('styles') }}" />
+</head>
+<body>
+  <div class="card">
+    <h1>Bus Stop Knopf</h1>
+    <p>Dieser Knopf sendet ein <strong>Command</strong> an den Consumer.</p>
+    <button id="stopButton">STOP</button>
+    <p class="status" id="status"></p>
+  </div>
+
+  <script>
+    const statusElement = document.getElementById("status");
+    const stopButton = document.getElementById("stopButton");
+    const commandUrl = "{{ consumer_command_url }}";
+
+    async function sendStopCommand() {
+      statusElement.textContent = "Sende Command...";
+      try {
+        const response = await fetch(commandUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ busId: "BUS-42" })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const payload = await response.json();
+        statusElement.textContent = `Command akzeptiert. Event-ID: ${payload.eventId}`;
+      } catch (error) {
+        statusElement.textContent = `Fehler beim Senden: ${error.message}`;
+      }
+    }
+
+    stopButton.addEventListener("click", sendStopCommand);
+  </script>
+</body>
+</html>

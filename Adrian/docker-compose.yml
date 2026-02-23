@@ -1,0 +1,14 @@
+﻿services:
+  provider:
+    build: ./provider
+    container_name: bus-stop-provider
+    environment:
+      - CONSUMER_COMMAND_URL=http://localhost:8081/commands/stop-button-press
+    ports:
+      - "8080:8080"
+
+  consumer:
+    build: ./consumer
+    container_name: bus-stop-consumer
+    ports:
+      - "8081:8081"

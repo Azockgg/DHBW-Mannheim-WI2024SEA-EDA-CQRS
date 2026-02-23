@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consumer Reaction</title>
+  <link rel="stylesheet" href="{{ url_for('styles') }}" />
+</head>
+<body>
+  <div class="panel">
+    <h1>Reaction (Consumer)</h1>
+    <p class="label">Empfangene Stop-Events</p>
+    <p class="metric" id="count">0</p>
+    <p class="small" id="lastBus">Letzter Bus: -</p>
+    <p class="small" id="lastAt">Letztes Event: -</p>
+  </div>
+
+  <script>
+    const countElement = document.getElementById("count");
+    const lastBusElement = document.getElementById("lastBus");
+    const lastAtElement = document.getElementById("lastAt");
+
+    async function refreshStatus() {
+      const response = await fetch("/queries/stop-status");
+      const data = await response.json();
+      countElement.textContent = data.totalStopRequests;
+      lastBusElement.textContent = `Letzter Bus: ${data.lastBusId ?? "-"}`;
+      lastAtElement.textContent = `Letztes Event: ${data.lastEventAt ?? "-"}`;
+    }
+
+    refreshStatus();
+    setInterval(refreshStatus, 1000);
+  </script>
+</body>
+</html>
